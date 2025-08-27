@@ -31,6 +31,7 @@ export function createGallery(images) {
         </li>`;
     })
     .join('');
+  galleryList.insertAdjacentHTML('beforeend', markup);
 
   galleryList.innerHTML = markup;
   gallery.refresh();
@@ -45,7 +46,15 @@ const loader = document.querySelector('.loader');
 export function showLoader() {
   loader.classList.remove('hidden');
 }
-
 export function hideLoader() {
   loader.classList.add('hidden');
+}
+
+const loadBtn = document.querySelector('.loadmore-btn');
+
+export function showLoadMorebtn() {
+  loadBtn.classList.remove('hidden');
+}
+export function hideLoadMorebtn() {
+  loadBtn.classList.add('hidden');
 }
