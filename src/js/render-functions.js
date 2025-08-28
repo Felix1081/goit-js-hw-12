@@ -33,7 +33,6 @@ export function createGallery(images) {
     .join('');
   galleryList.insertAdjacentHTML('beforeend', markup);
 
-  galleryList.innerHTML = markup;
   gallery.refresh();
 }
 
@@ -50,11 +49,11 @@ export function hideLoader() {
   loader.classList.add('hidden');
 }
 
-const loadBtn = document.querySelector('.loadmore-btn');
+export const loadMoreButton = document.querySelector('.loadmore-btn');
 
-export function showLoadMorebtn() {
-  loadBtn.classList.remove('hidden');
+export function showLoadMoreButton() {
+  loadMoreButton.classList.remove('hidden');
 }
-export function hideLoadMorebtn() {
-  loadBtn.classList.add('hidden');
+export function hideLoadMoreButton() {
+  loadMoreButton.classList.add('hidden');
 }

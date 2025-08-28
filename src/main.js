@@ -8,25 +8,32 @@ import {
   clearGallery,
   showLoader,
   hideLoader,
-  showLoadMorebtn,
-  hideLoadMorebtn,
+  loadMoreButton,
+  showLoadMoreButton,
+  hideLoadMoreButton,
 } from './js/render-functions';
 
 const formEl = document.querySelector('.form');
 
+let page = 1;
+let currentQuery = '';
+
 formEl.addEventListener('submit', async e => {
   e.preventDefault();
-  const query = e.currentTarget.elements['search-text'].value
+  currentQuery = e.currentTarget.elements['search-text'].value
     .trim()
     .toLowerCase();
+  page = 1;
 
   clearGallery();
   showLoader();
-  hideLoadMorebtn();
+  hideLoadMoreButton();
 
   try {
-    const data = await getImagesByQuery(query);
+    const data = await getImagesByQuery(currentQuery, page);
+
     hideLoader();
+
     if (!data.hits || data.hits.length === 0) {
       iziToast.error({
         title: 'Error!!!',
@@ -35,9 +42,13 @@ formEl.addEventListener('submit', async e => {
       });
       return;
     }
+
     createGallery(data.hits);
+
+    if (data.totalHits > 15) {
+      showLoadMoreButton();
+    }
   } catch (err) {
-    hideLoader();
     iziToast.error({
       title: 'Error',
       message: 'Something went wrong. Please try again later.',
@@ -45,4 +56,28 @@ formEl.addEventListener('submit', async e => {
     console.log(err);
   }
   formEl.reset();
+});
+
+loadMoreButton.addEventListener('click', async () => {
+  page += 1;
+
+  showLoader();
+  try {
+    const data = await getImagesByQuery(currentQuery, page);
+    createGallery(data.hits);
+
+    const item = document.querySelector('.');
+
+    if (data.totalHits <= page * 15) {
+      hideLoadMoreButton();
+      iziToast.info({
+        title: 'Sorry',
+        message: "We're sorry, but you've reached the end of search results.",
+      });
+    }
+  } catch (err) {
+    iziToast.error({ title: 'Error', message: 'Failed to load more images.' });
+  } finally {
+    hideLoader();
+  }
 });
