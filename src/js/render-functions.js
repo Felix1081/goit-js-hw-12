@@ -8,7 +8,7 @@ let gallery = new SimpleLightbox('.gallery a', {
 });
 gallery.on('show.simplelightbox', function () {});
 
-const galleryList = document.querySelector('.gallery');
+export const galleryList = document.querySelector('.gallery');
 
 export function createGallery(images) {
   const markup = images

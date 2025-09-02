@@ -11,6 +11,7 @@ import {
   loadMoreButton,
   showLoadMoreButton,
   hideLoadMoreButton,
+  galleryList,
 } from './js/render-functions';
 
 const formEl = document.querySelector('.form');
@@ -66,7 +67,14 @@ loadMoreButton.addEventListener('click', async () => {
     const data = await getImagesByQuery(currentQuery, page);
     createGallery(data.hits);
 
-    const item = document.querySelector('.');
+    const firstGalleryItem = galleryList.querySelector('li');
+    if (firstGalleryItem) {
+      const cardHeight = firstGalleryItem.getBoundingClientRect().height;
+      window.scrollBy({
+        top: cardHeight * 2,
+        behavior: 'smooth',
+      });
+    }
 
     if (data.totalHits <= page * 15) {
       hideLoadMoreButton();
