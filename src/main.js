@@ -69,9 +69,9 @@ loadMoreButton.addEventListener('click', async () => {
 
     const firstGalleryItem = galleryList.querySelector('li');
     if (firstGalleryItem) {
-      const cardHeight = firstGalleryItem.getBoundingClientRect().height;
+      const itemHeight = firstGalleryItem.getBoundingClientRect().height;
       window.scrollBy({
-        top: cardHeight * 2,
+        top: itemHeight * 2,
         behavior: 'smooth',
       });
     }
